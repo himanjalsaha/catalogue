@@ -117,7 +117,7 @@ export function ProductUploadForm() {
         ...doc.data(),
       })) as Product[]
       setProducts(productsData)
-    } catch (err: any) {
+    } catch {
       setError("Failed to fetch products")
     } finally {
       setLoading(false)
@@ -255,7 +255,7 @@ export function ProductUploadForm() {
           try {
             const oldImageRef = ref(storage, editingProduct.image)
             await deleteObject(oldImageRef)
-          } catch (err) {
+          } catch (err:any) {
             console.log("Old image not found or already deleted")
           }
         }
@@ -293,7 +293,7 @@ export function ProductUploadForm() {
         try {
           const imageRef = ref(storage, product.image)
           await deleteObject(imageRef)
-        } catch (err) {
+        } catch {
           console.log("Image not found or already deleted")
         }
       }
