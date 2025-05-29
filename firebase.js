@@ -61,6 +61,21 @@ export const getCategories = (products) => {
   // Add "All Products" category
   categoryMap.set('all', { id: 'all', name: 'All Products', count: products.length });
   
+  // Map category IDs to readable names
+  const categoryNames = {
+    'windows': 'Aluminium Windows',
+    'doors': 'Doors & Frames',
+    'railings': 'Railings & Balustrades',
+    'curtain-walls': 'Curtain Walls',
+    'roofing': 'Roofing Systems',
+    'partitions': 'Partitions & Facades',
+    'accessories': 'Accessories & Hardware',
+    'custom': 'Custom Solutions',
+    'other': 'Other',
+    'handles': 'Handles & Locks',
+    'glass': 'Glass & Glazing'
+  };
+  
   // Count products by category
   products.forEach(product => {
     const category = product.category;
@@ -68,15 +83,6 @@ export const getCategories = (products) => {
       if (categoryMap.has(category)) {
         categoryMap.get(category).count++;
       } else {
-        // Map category IDs to readable names
-        const categoryNames = {
-          'windows': 'Aluminium Windows',
-          'doors': 'Doors & Frames',
-          'railings': 'Railings & Balustrades',
-          'curtain-walls': 'Curtain Walls',
-          'roofing': 'Roofing Systems'
-        };
-        
         categoryMap.set(category, {
           id: category,
           name: categoryNames[category] || category.charAt(0).toUpperCase() + category.slice(1),

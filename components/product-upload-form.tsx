@@ -23,6 +23,13 @@ const categories = [
   { id: "railings", name: "Railings & Balustrades" },
   { id: "curtain-walls", name: "Curtain Walls" },
   { id: "roofing", name: "Roofing Systems" },
+    { id: "partitions", name: "Partitions & Facades" },
+    { id: "accessories", name: "Accessories & Hardware" },
+    { id: "custom", name: "Custom Solutions" },
+    { id: "other", name: "Other" },
+    {id : 'handles', name: 'Handles & Locks' },
+    { id: "glass", name: "Glass & Glazing" },
+
 ]
 
 interface ProductForm {
