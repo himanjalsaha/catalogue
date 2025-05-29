@@ -15,6 +15,7 @@ import { Loader2, Upload, X, Plus } from "lucide-react"
 import { collection, addDoc } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { db, storage } from "../firebase"
+import Image from "next/image"
 
 const categories = [
   { id: "windows", name: "Aluminium Windows" },
@@ -282,10 +283,12 @@ export function ProductUploadForm() {
             <div className="flex items-center gap-4">
               <Input id="image" type="file" accept="image/*" onChange={handleImageChange} required />
               {imagePreview && (
-                <img
+                <Image
                   src={imagePreview || "/placeholder.svg"}
                   alt="Preview"
                   className="w-20 h-20 object-cover rounded-lg border"
+                  width={80}
+                  height={80}
                 />
               )}
             </div>
