@@ -3,23 +3,23 @@
 import { useState, useEffect } from "react"
 import { Search, Filter, Grid, List, Star, Eye, Loader2 } from "lucide-react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { ProductDetailDialog } from "@/components/product-detail-dialog"
 import { fetchProducts, getCategories } from "../firebase"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import type { Product, Category } from "../types/product"
 
 export default function CataloguePage() {
+  const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [sortBy, setSortBy] = useState<string>("name")
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
   // Firebase state
   const [products, setProducts] = useState<Product[]>([])
@@ -70,6 +70,12 @@ export default function CataloguePage() {
         return (a.name || "").localeCompare(b.name || "")
     }
   })
+
+  const handleProductClick = (product: Product) => {
+    // Create a URL-friendly slug from the product name and id
+    const slug = `${product.name?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${product.id}`
+    router.push(`/product/${slug}`)
+  }
 
   // Loading state
   if (loading) {
@@ -302,9 +308,10 @@ export default function CataloguePage() {
               {sortedProducts.map((product: Product) => (
                 <Card
                   key={product.id}
-                  className={`group hover:shadow-lg transition-shadow ${
+                  className={`group hover:shadow-lg transition-shadow cursor-pointer ${
                     viewMode === "list" ? "flex flex-col sm:flex-row" : ""
                   }`}
+                  onClick={() => handleProductClick(product)}
                 >
                   <div className={viewMode === "list" ? "w-full sm:w-48 flex-shrink-0" : ""}>
                     <CardHeader className="p-0">
@@ -388,11 +395,21 @@ export default function CataloguePage() {
 
                     <CardFooter className="p-4 pt-0">
                       <div className="flex flex-col sm:flex-row gap-2 w-full">
-                        <Button className="flex-1" onClick={() => setSelectedProduct(product)}>
+                        <Button 
+                          className="flex-1" 
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleProductClick(product)
+                          }}
+                        >
                           <Eye className="w-4 h-4 mr-2" />
                           View Details
                         </Button>
-                        <Button variant="outline" className="sm:w-auto">
+                        <Button 
+                          variant="outline" 
+                          className="sm:w-auto"
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           Request Info
                         </Button>
                       </div>
@@ -446,9 +463,9 @@ export default function CataloguePage() {
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li>Phone: +91 96783 55177</li>
+                <li>Phone: +91 99543 52673</li>
                 <li>Email: info@glamouraluminium.com</li>
-                <li>Address: 123 Industrial Ave</li>
+                <li>Address: Goalpara 2 no. colony Assam 783101</li>
               </ul>
             </div>
           </div>
@@ -457,13 +474,6 @@ export default function CataloguePage() {
           </div>
         </div>
       </footer>
-
-      {/* Product Detail Dialog */}
-      <ProductDetailDialog
-        product={selectedProduct}
-        open={!!selectedProduct}
-        onOpenChange={(open: boolean) => !open && setSelectedProduct(null)}
-      />
     </div>
   )
 }
