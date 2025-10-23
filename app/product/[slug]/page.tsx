@@ -95,7 +95,7 @@ export default function ProductDetailPage() {
   const handleEmailQuote = () => {
     const subject = encodeURIComponent(`Quote Request for ${product?.name || 'Product'}`)
     const body = encodeURIComponent(
-      `Hello,\n\nI would like to request a quote for the following product:\n\nProduct: ${product?.name || 'N/A'}\nModel: ${product?.model || 'N/A'}\nCategory: ${product?.category || 'N/A'}\n\nPlease provide pricing and availability information.\n\nThank you!`
+      `Hello,\n\nI would like to request a quote for the following product:\n\nProduct: ${window.location.href} \n\nPlease provide pricing and availability information.\n\nThank you!`
     )
     window.location.href = `mailto:info@glamouraluminium.com?subject=${subject}&body=${body}`
   }
