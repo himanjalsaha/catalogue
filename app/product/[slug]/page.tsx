@@ -84,9 +84,10 @@ export default function ProductDetailPage() {
     window.location.href = `tel:${phoneNumber}`
   }
 
-  const handleWhatsApp = () => {
+ const handleWhatsApp = () => {
+    const productUrl = `https://catalogue-eta.vercel.app/product/${params.slug}`
     const message = encodeURIComponent(
-      `Hi, I'm interested in ${product?.name || 'your product'}. Could you please provide more information?`
+      `Hi, I'm interested in this product: ${productUrl}. Could you please provide more information?`
     )
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
     window.open(whatsappUrl, '_blank')
@@ -95,7 +96,7 @@ export default function ProductDetailPage() {
   const handleEmailQuote = () => {
     const subject = encodeURIComponent(`Quote Request for ${product?.name || 'Product'}`)
     const body = encodeURIComponent(
-      `Hello,\n\nI would like to request a quote for the following product:\n\nProduct: ${window.location.href} \n\nPlease provide pricing and availability information.\n\nThank you!`
+      `Hello,\n\nI would like to request a quote for the following product:\n\nProduct: ${product?.name || 'N/A'}\nModel: ${product?.model || 'N/A'}\nCategory: ${product?.category || 'N/A'}\n\nPlease provide pricing and availability information.\n\nThank you!`
     )
     window.location.href = `mailto:info@glamouraluminium.com?subject=${subject}&body=${body}`
   }
